@@ -1,0 +1,2 @@
+# MEENCurriculum
+MEEN degree curriculum

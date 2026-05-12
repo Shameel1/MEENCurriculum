@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEEN Curriculum Roadmap</title>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+      background: #f6f8fa;
+      color: #24292f;
+    }
+    header {
+      padding: 13px 22px;
+      background: #ffffff;
+      border-bottom: 1px solid #d0d7de;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    h1 { font-size: 1.3rem; font-weight: 600; color: #1a1f2e; }
+    .subtitle { font-size: 0.80rem; color: #6e7681; }
+    .main { display: flex; height: calc(100vh - 48px); }
+    #chart-wrap { flex: 1; overflow-y: auto; overflow-x: hidden; }
+    #chart { width: 100%; }
+
+    .sidebar {
+      width: 245px; min-width: 245px;
+      background: #ffffff;
+      border-left: 1px solid #d0d7de;
+      padding: 14px 13px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .s-title {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #8c949e;
+      margin-bottom: 7px;
+    }
+    .s-block { margin-bottom: 14px; }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 5px; font-size: 0.79rem; color: #57606a;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    hr { border: none; border-top: 1px solid #d8dee4; margin: 10px 0 12px; }
+
+    #placeholder { font-size: 0.79rem; color: #b0b8c2; font-style: italic; }
+    #detail { display: none; }
+    #cname  { font-size: 1rem; font-weight: 700; color: #1a1f2e; }
+    #cfull  { font-size: 0.79rem; color: #57606a; margin-top: 3px; line-height: 1.45; }
+    #cmeta  { font-size: 0.74rem; color: #8c959e; margin-top: 6px; }
+    .rel-block { margin-top: 10px; }
+    .rel-hdr {
+      font-size: 0.64rem; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 4px; font-weight: 600;
+    }
+    .chip {
+      display: inline-block; padding: 1px 6px; border-radius: 4px;
+      font-size: 0.71rem; font-family: 'Consolas', monospace;
+      margin: 2px 2px 0 0; border: 1px solid transparent;
+    }
+    .credits-bar-bg {
+      height: 4px; border-radius: 3px; background: #eaeef2; margin-top: 8px;
+    }
+    .credits-bar-fill {
+      height: 4px; border-radius: 3px; background: #f0a500;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MEEN Curriculum Roadmap</h1>
+  <span class="subtitle">
+    Hover a course &nbsp;·&nbsp;
+    <span style="color:#d4700a;font-weight:600">■</span> prerequisites &nbsp;·&nbsp;
+    <span style="color:#0277bd;font-weight:600">■</span> dependent courses &nbsp;·&nbsp;
+    <span style="color:#7b1fa2;font-weight:600">■</span> concurrent enrollment &nbsp;·&nbsp;
+    <span style="color:rgba(80,110,180,0.8);font-weight:600">╌╌</span> early start → late finish
+  </span>
+</header>
+
+<div class="main">
+  <div id="chart-wrap"><div id="chart"></div></div>
+  <div class="sidebar">
+
+    <div class="s-block">
+      <div class="s-title">Departments</div>
+      <div class="legend-row"><div class="dot" style="background:#2565a0"></div>MATH</div>
+      <div class="legend-row"><div class="dot" style="background:#d4700a"></div>PHYS</div>
+      <div class="legend-row"><div class="dot" style="background:#2d7a2a"></div>CHEM</div>
+      <div class="legend-row"><div class="dot" style="background:#8b4e8b"></div>ENGR</div>
+      <div class="legend-row"><div class="dot" style="background:#c0392b"></div>MEEN</div>
+      <div class="legend-row"><div class="dot" style="background:#2e9e99"></div>ELEN</div>
+    </div>
+
+    <hr>
+
+    <div class="s-block">
+      <div class="s-title">Hover highlights</div>
+      <div class="legend-row"><div class="dot" style="background:#f0a500"></div>Selected course</div>
+      <div class="legend-row"><div class="dot" style="background:#d4700a"></div>Prerequisites (all)</div>
+      <div class="legend-row"><div class="dot" style="background:#0277bd"></div>Dependent courses</div>
+      <div class="legend-row"><div class="dot" style="background:#7b1fa2"></div>Concurrent enrollment</div>
+    </div>
+
+    <div class="s-block">
+      <div class="s-title">Critical path (CPM)</div>
+      <div class="legend-row">
+        <div style="width:20px;height:0;border-top:2px dashed rgba(80,110,180,0.7);flex-shrink:0;margin-top:1px"></div>
+        &nbsp;ES → LF window
+      </div>
+      <div class="legend-row"><div class="dot" style="background:#c0392b;border-radius:50%"></div>On critical path</div>
+      <div class="legend-row"><div class="dot" style="background:#eaeef2;border:1px solid #c8cdd3"></div>Has float (slack)</div>
+    </div>
+
+    <hr>
+
+    <div class="s-block">
+      <div class="s-title">Course details</div>
+      <div id="placeholder">Hover a course to see details</div>
+      <div id="detail">
+        <div id="cname"></div>
+        <div id="cfull"></div>
+        <div id="cmeta"></div>
+        <div id="crels"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// COURSE DATA — edit this block to update the curriculum config.
+// To regenerate from source: edit meen_courses.json and run run_cpm.py,
+// then paste the resulting const COURSES = [...] here.
+// ══════════════════════════════════════════════════════════════════
+const COURSES = [
+  {
+    "course_number": "CHEM 127",
+    "course_name": "General Chemistry I",
+    "credits": 3,
+    "semester": "Freshman Fall",
+    "semester_number": 1,
+    "prerequisites": [],
+    "concurrent_enrollment": [
+      "CHEM 128"
+    ],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 2,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "CHEM 128",
+    "course_name": "General Chemistry I Laboratory",
+    "credits": 1,
+    "semester": "Freshman Fall",
+    "semester_number": 1,
+    "prerequisites": [],
+    "concurrent_enrollment": [
+      "CHEM 127"
+    ],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 2,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "ENGL 114",
+    "course_name": "Composition and Rhetoric",
+    "credits": 3,
+    "semester": "Freshman Fall",
+    "semester_number": 1,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "ENGR 110",
+    "course_name": "Introduction to Programming",
+    "credits": 3,
+    "semester": "Freshman Fall",
+    "semester_number": 1,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 2,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MATH 161",
+    "course_name": "Engineering Mathematics I",
+    "credits": 4,
+    "semester": "Freshman Fall",
+    "semester_number": 1,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 1,
+    "late_finish_semester": 2,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "ENGL 220",
+    "course_name": "Technical Writing",
+    "credits": 3,
+    "semester": "Freshman Spring",
+    "semester_number": 2,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MATH 162",
+    "course_name": "Engineering Mathematics II",
+    "credits": 4,
+    "semester": "Freshman Spring",
+    "semester_number": 2,
+    "prerequisites": [
+      "MATH 161"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 2,
+    "early_finish_semester": 3,
+    "late_start_semester": 2,
+    "late_finish_semester": 3,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 210",
+    "course_name": "Computer Aided Design",
+    "credits": 2,
+    "semester": "Freshman Spring",
+    "semester_number": 2,
+    "prerequisites": [
+      "ENGR 110"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 2,
+    "early_finish_semester": 3,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 2,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "PHYS 216",
+    "course_name": "Newtonian Mechanics for Engineering and Science",
+    "credits": 3,
+    "semester": "Freshman Spring",
+    "semester_number": 2,
+    "prerequisites": [
+      "MATH 161"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 2,
+    "early_finish_semester": 3,
+    "late_start_semester": 2,
+    "late_finish_semester": 3,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "PHYS 226",
+    "course_name": "Experimental Physics & Engineering Lab I: Mechanics",
+    "credits": 1,
+    "semester": "Freshman Spring",
+    "semester_number": 2,
+    "prerequisites": [
+      "MATH 161"
+    ],
+    "concurrent_enrollment": [
+      "PHYS 216"
+    ],
+    "early_start_semester": 2,
+    "early_finish_semester": 3,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 4,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "ENGR 210",
+    "course_name": "Introduction to Innovations and Technology Entrepreneurship",
+    "credits": 1,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MATH 211",
+    "course_name": "Principles of Statistics",
+    "credits": 3,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "MATH 162"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MATH 261",
+    "course_name": "Engineering Mathematics III",
+    "credits": 3,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "MATH 162"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 223",
+    "course_name": "Principles of Engineering Materials",
+    "credits": 3,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "CHEM 127",
+      "CHEM 128",
+      "PHYS 216"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 225",
+    "course_name": "Statics",
+    "credits": 3,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "PHYS 216"
+    ],
+    "concurrent_enrollment": [
+      "MATH 261"
+    ],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 3,
+    "late_finish_semester": 4,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "PHYS 217",
+    "course_name": "Electricity and Magnetism for Engineering and Science",
+    "credits": 3,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "MATH 162",
+      "PHYS 216"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "PHYS 227",
+    "course_name": "Experimental Physics & Engineering Lab II: Electricity and Magnetism",
+    "credits": 1,
+    "semester": "Sophomore Fall",
+    "semester_number": 3,
+    "prerequisites": [
+      "PHYS 216",
+      "PHYS 226",
+      "MATH 162"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 4,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "ELEN 215",
+    "course_name": "Principles of Electrical Engineering",
+    "credits": 3,
+    "semester": "Sophomore Spring",
+    "semester_number": 4,
+    "prerequisites": [
+      "MATH 261",
+      "PHYS 217"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MATH 318",
+    "course_name": "Differential Equations",
+    "credits": 3,
+    "semester": "Sophomore Spring",
+    "semester_number": 4,
+    "prerequisites": [
+      "MATH 261"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 260",
+    "course_name": "Measurement and Instrumentation",
+    "credits": 2,
+    "semester": "Sophomore Spring",
+    "semester_number": 4,
+    "prerequisites": [
+      "MATH 211"
+    ],
+    "concurrent_enrollment": [
+      "ELEN 215"
+    ],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 263",
+    "course_name": "Dynamics",
+    "credits": 3,
+    "semester": "Sophomore Spring",
+    "semester_number": 4,
+    "prerequisites": [
+      "MEEN 225",
+      "MATH 261"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 315",
+    "course_name": "Engineering Thermodynamics",
+    "credits": 3,
+    "semester": "Sophomore Spring",
+    "semester_number": 4,
+    "prerequisites": [
+      "CHEM 127",
+      "PHYS 216",
+      "MATH 162"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 3,
+    "early_finish_semester": 4,
+    "late_start_semester": 4,
+    "late_finish_semester": 5,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 305",
+    "course_name": "Mechanics of Materials",
+    "credits": 3,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 223",
+      "MEEN 225"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 344",
+    "course_name": "Fluid Mechanics",
+    "credits": 3,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 315",
+      "MATH 318"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 345",
+    "course_name": "Fluid Mechanics Laboratory",
+    "credits": 1,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 260"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 344"
+    ],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 360",
+    "course_name": "Manufacturing of Engineering Materials",
+    "credits": 3,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 223"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 4,
+    "early_finish_semester": 5,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 361",
+    "course_name": "Manufacturing of Engineering Materials Laboratory",
+    "credits": 1,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 210",
+      "MEEN 260"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 360"
+    ],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 363",
+    "course_name": "Mechanical Vibrations",
+    "credits": 3,
+    "semester": "Junior Fall",
+    "semester_number": 5,
+    "prerequisites": [
+      "MEEN 263",
+      "MATH 318"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 260"
+    ],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 5,
+    "late_finish_semester": 6,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 357",
+    "course_name": "Computational Methods in Mechanical Engineering",
+    "credits": 3,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MATH 318"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 364",
+    "course_name": "Dynamic Systems and Controls",
+    "credits": 3,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MEEN 363",
+      "ELEN 215"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 365",
+    "course_name": "HHHDynamic Systems and Controls Laboratory",
+    "credits": 1,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MEEN 260"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 364"
+    ],
+    "early_start_semester": 6,
+    "early_finish_semester": 6,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 2,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 368",
+    "course_name": "Design of Mechanical Components and Systems I",
+    "credits": 3,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MEEN 305"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 5,
+    "early_finish_semester": 6,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 381",
+    "course_name": "Seminar",
+    "credits": 1,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "Major in Mechanical Engineering"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 391",
+    "course_name": "Internship",
+    "credits": 0,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 461",
+    "course_name": "Heat Transfer",
+    "credits": 3,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MEEN 344"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 6,
+    "late_finish_semester": 7,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 464",
+    "course_name": "Heat Transfer Laboratory",
+    "credits": 1,
+    "semester": "Junior Spring",
+    "semester_number": 6,
+    "prerequisites": [
+      "MEEN 345"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 461"
+    ],
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "ENGR 482",
+    "course_name": "Engineering Ethics",
+    "credits": 3,
+    "semester": "Senior Fall",
+    "semester_number": 7,
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 401",
+    "course_name": "Senior Design Project I",
+    "credits": 3,
+    "semester": "Senior Fall",
+    "semester_number": 7,
+    "prerequisites": [
+      "MEEN 360",
+      "MEEN 361"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 364",
+      "MEEN 365",
+      "MEEN 368",
+      "MEEN 461",
+      "MEEN 464"
+    ],
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 404",
+    "course_name": "Design of Experiments for Engineering Applications",
+    "credits": 3,
+    "semester": "Senior Fall",
+    "semester_number": 7,
+    "prerequisites": [
+      "MEEN 360"
+    ],
+    "concurrent_enrollment": [
+      "MEEN 364",
+      "MEEN 368",
+      "MEEN 461"
+    ],
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 402",
+    "course_name": "Senior Design Project II",
+    "credits": 3,
+    "semester": "Senior Spring",
+    "semester_number": 8,
+    "prerequisites": [
+      "MEEN 401"
+    ],
+    "concurrent_enrollment": [],
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 9,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 421",
+    "course_name": "Thermal-Fluids Analysis and Design",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 461"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 423",
+    "course_name": "Machine Learning for Mechanical Engineers",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 357"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 433",
+    "course_name": "Principles of Mechatronics",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 364"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 435",
+    "course_name": "Automation and Robotics",
+    "credits": 3,
+    "prerequisites": [
+      "Senior Standing"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 441",
+    "course_name": "Design of Mechanical Components and Systems II",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 368"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 444",
+    "course_name": "Finite Element Analysis",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 357",
+      "MEEN 368"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 453",
+    "course_name": "Advanced Manufacturing Processes",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 360",
+      "MEEN 361"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 460",
+    "course_name": "Corrosion Engineering",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 360",
+      "MEEN 361"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 467",
+    "course_name": "Mechanical Behavior of Materials",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 360",
+      "MEEN 361"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 470",
+    "course_name": "Principles of Energy Conversion",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 461"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 472",
+    "course_name": "Building Science, Technology, and HVAC Systems",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 461"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 473",
+    "course_name": "Advanced Natural Gas Engineering and Handling Equipment",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 315",
+      "MEEN 344"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 6,
+    "early_finish_semester": 7,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 1,
+    "on_critical_path": false
+  },
+  {
+    "course_number": "MEEN 474",
+    "course_name": "Sustainable Energy Technologies and Systems",
+    "credits": 3,
+    "prerequisites": [
+      "MEEN 461"
+    ],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 7,
+    "early_finish_semester": 8,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 0,
+    "on_critical_path": true
+  },
+  {
+    "course_number": "MEEN 489",
+    "course_name": "Selected Topics in Mechanical Engineering",
+    "credits": "1-3",
+    "prerequisites": [],
+    "concurrent_enrollment": [],
+    "semester": null,
+    "semester_number": null,
+    "early_start_semester": 1,
+    "early_finish_semester": 2,
+    "late_start_semester": 7,
+    "late_finish_semester": 8,
+    "slack": 6,
+    "on_critical_path": false
+  }
+];
+// ══════════════════════════════════════════════════════════════════
+</script>
+<script>
+// ── Chart initialisation ──────────────────────────────────────────
+// COURSES data is defined in the <script> block above this one.
+function initChart(COURSES) {
+
+// ── Build lookup maps ─────────────────────────────────────────────
+const courseMap = {};
+COURSES.forEach(c => courseMap[c.course_number] = c);
+
+const dependentsMap = {};
+COURSES.forEach(c => dependentsMap[c.course_number] = []);
+COURSES.forEach(c => {
+  c.prerequisites.forEach(prereq => {
+    if (courseMap[prereq]) dependentsMap[prereq].push(c.course_number);
+  });
+});
+
+// Sort: sem 1–8 first, electives (null → slot 9) last, then alpha within each
+const sorted = [...COURSES].sort((a, b) => {
+  const sa = a.semester_number ?? 9;
+  const sb = b.semester_number ?? 9;
+  if (sa !== sb) return sa - sb;
+  return a.course_number.localeCompare(b.course_number);
+});
+
+// ── Dependency traversal ──────────────────────────────────────────
+function getAncestors(cn) {
+  const result = new Set();
+  const q = (courseMap[cn]?.prerequisites || []).filter(p => courseMap[p]);
+  const visited = new Set(q);
+  q.forEach(p => result.add(p));
+  while (q.length) {
+    const curr = q.shift();
+    (courseMap[curr]?.prerequisites || []).forEach(p => {
+      if (courseMap[p] && !visited.has(p)) { visited.add(p); result.add(p); q.push(p); }
+    });
+  }
+  return result;
+}
+
+function getDescendants(cn) {
+  const result = new Set();
+  const q = [...(dependentsMap[cn] || [])];
+  const visited = new Set(q);
+  q.forEach(d => result.add(d));
+  while (q.length) {
+    const curr = q.shift();
+    (dependentsMap[curr] || []).forEach(d => {
+      if (!visited.has(d)) { visited.add(d); result.add(d); q.push(d); }
+    });
+  }
+  return result;
+}
+
+// ── Colors ───────────────────────────────────────────────────────
+const DEPT_COLORS = {
+  MATH: '#2565a0', PHYS: '#d4700a', CHEM: '#2d7a2a',
+  ENGR: '#8b4e8b', MEEN: '#c0392b', ELEN: '#2e9e99'
+};
+function deptColor(cn) {
+  return DEPT_COLORS[cn.split(' ')[0]] || '#6e7681';
+}
+
+const COL = {
+  hovered:    '#f0a500',
+  prereq:     '#d4700a',
+  dependent:  '#0277bd',
+  concurrent: '#7b1fa2',
+  dimmed:     '#dde1e8'
+};
+
+const defaultColors  = sorted.map(c => deptColor(c.course_number));
+const defaultOpacity = sorted.map(() => 0.85);
+
+// ── Semester labels ───────────────────────────────────────────────
+const SEM_LABELS = {
+  1: 'Freshman Fall',   2: 'Freshman Spring',
+  3: 'Sophomore Fall',  4: 'Sophomore Spring',
+  5: 'Junior Fall',     6: 'Junior Spring',
+  7: 'Senior Fall',     8: 'Senior Spring',
+  9: 'Electives'
+};
+
+// ── Bar text: course name truncated to fit ────────────────────────
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n - 1) + '…' : str;
+}
+const barText = sorted.map(c => truncate(c.course_number, 22));
+
+// ── Build chart data ──────────────────────────────────────────────
+const yLabels   = sorted.map(c => c.course_number);
+const xBase     = sorted.map(c => (c.semester_number ?? 9) - 0.42);
+const xWidth    = sorted.map(() => 0.84);
+
+// ── Float window end-cap markers (ES and LF endpoints) ───────────
+// Dashed lines are layout shapes with layer:'below' (behind bars).
+// These vertical tick markers render above bars as visible end-caps.
+const markerX = [];
+const markerY = [];
+sorted.forEach(c => {
+  if (c.semester_number === null || c.early_start_semester == null) return;
+  markerX.push(c.early_start_semester - 0.42, c.late_finish_semester - 0.58);
+  markerY.push(c.course_number, c.course_number);
+});
+const markerTrace = {
+  type: 'scatter',
+  mode: 'markers',
+  x: markerX,
+  y: markerY,
+  marker: {
+    symbol: 'line-ns',
+    size: 8,
+    color: 'rgba(70, 105, 175, 0.65)',
+    line: { color: 'rgba(70, 105, 175, 0.65)', width: 2 }
+  },
+  hoverinfo: 'none',
+  showlegend: false
+};
+
+const trace = {
+  type: 'bar',
+  orientation: 'h',
+  y:    yLabels,
+  x:    xWidth,
+  base: xBase,
+  text: barText,
+  textposition: 'inside',
+  insidetextanchor: 'middle',
+  constraintext: 'none',
+  textfont: { color: '#ffffff', size: 9.5, family: 'Segoe UI, sans-serif' },
+  marker: {
+    color:   [...defaultColors],
+    opacity: [...defaultOpacity],
+    line: {
+      color: sorted.map(() => 'rgba(0,0,0,0.12)'),
+      width: 0.8
+    }
+  },
+  hovertemplate: '<extra></extra>',
+  showlegend: false
+};
+
+// ── Layout shapes: alternating bands + vertical separators ────────
+const shapes = [];
+for (let s = 1; s <= 9; s++) {
+  shapes.push({
+    type: 'rect', xref: 'x', yref: 'paper',
+    x0: s - 0.5, x1: s + 0.5, y0: 0, y1: 1,
+    fillcolor: s % 2 === 0 ? 'rgba(0,0,0,0.025)' : 'rgba(0,0,0,0)',
+    line: { width: 0 }
+  });
+}
+[1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5].forEach(x => {
+  shapes.push({
+    type: 'line', xref: 'x', yref: 'paper',
+    x0: x, x1: x, y0: 0, y1: 1,
+    line: { color: '#c8cdd3', width: 1, dash: 'dot' }
+  });
+});
+
+// Horizontal separator between required and elective courses
+const lastRequired = sorted.filter(c => c.semester_number !== null).length;
+const eleStart = 1 - (lastRequired - 0.5) / sorted.length;
+shapes.push({
+  type: 'line', xref: 'paper', yref: 'paper',
+  x0: 0, x1: 1, y0: eleStart, y1: eleStart,
+  line: { color: '#8c959e', width: 1.5, dash: 'dashdot' }
+});
+
+// Float window dashed lines — rendered behind bars via layer:'below'.
+// xref:'x' yref:'y' with categorical y lets us use course_number strings.
+// Electives are skipped (their CPM window is in required-semester columns,
+// not at x=9 where their bars live).
+sorted.forEach(c => {
+  if (c.semester_number === null || c.early_start_semester == null) return;
+  shapes.push({
+    type: 'line', xref: 'x', yref: 'y',
+    x0: c.early_start_semester - 0.42,
+    x1: c.late_finish_semester  - 0.58,
+    y0: c.course_number, y1: c.course_number,
+    layer: 'below',
+    line: { color: 'rgba(70, 105, 175, 0.45)', width: 2, dash: 'dash' }
+  });
+});
+
+const chartHeight = Math.max(800, sorted.length * 26 + 100);
+
+const layout = {
+  paper_bgcolor: '#f6f8fa',
+  plot_bgcolor:  '#ffffff',
+  font: { color: '#24292f', family: 'Segoe UI, sans-serif', size: 11 },
+  height: chartHeight,
+  margin: { l: 90, r: 20, t: 36, b: 72 },
+  shapes,
+  annotations: [{
+    xref: 'paper', yref: 'paper',
+    x: 0.5, y: 1.025, showarrow: false,
+    text: 'Required Courses  (Semesters 1 – 8)      — — —      Elective Courses',
+    font: { size: 10, color: '#8c959e' },
+    xanchor: 'center'
+  }],
+  xaxis: {
+    title: '',
+    range: [0.5, 9.5],
+    tickvals: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ticktext: Object.values(SEM_LABELS),
+    tickangle: -28,
+    tickfont: { size: 11, color: '#57606a' },
+    gridcolor: '#eaeef2',
+    zeroline: false,
+    fixedrange: true
+  },
+  yaxis: {
+    autorange: 'reversed',
+    fixedrange: true,
+    tickfont: { size: 10.5, color: '#57606a', family: 'Consolas, monospace' },
+    showgrid: false
+  },
+  bargap: 0.28,
+  showlegend: false
+};
+
+const config = { displayModeBar: false, responsive: true };
+
+Plotly.newPlot('chart', [markerTrace, trace], layout, config);
+
+// ── Hover interactions ────────────────────────────────────────────
+const chartDiv = document.getElementById('chart');
+
+chartDiv.on('plotly_hover', data => {
+  if (data.points[0].curveNumber !== 1) return; // bar trace only
+  const idx = data.points[0].pointIndex;
+  const c   = sorted[idx];
+  const cn  = c.course_number;
+
+  const ancestors   = getAncestors(cn);
+  const descendants = getDescendants(cn);
+  const concurrent  = new Set(c.concurrent_enrollment);
+
+  const newColors = sorted.map((s, i) => {
+    if (i === idx)                          return COL.hovered;
+    if (ancestors.has(s.course_number))     return COL.prereq;
+    if (descendants.has(s.course_number))   return COL.dependent;
+    if (concurrent.has(s.course_number))    return COL.concurrent;
+    return COL.dimmed;
+  });
+
+  const newOpacity = sorted.map((s, i) => {
+    if (i === idx) return 1;
+    if (ancestors.has(s.course_number) || descendants.has(s.course_number) || concurrent.has(s.course_number)) return 0.9;
+    return 0.35;
+  });
+
+  const newLineColor = sorted.map((s, i) =>
+    i === idx ? 'rgba(180,120,0,0.9)' : 'rgba(0,0,0,0.10)'
+  );
+  const newLineWidth = sorted.map((s, i) => i === idx ? 2 : 0.6);
+
+  Plotly.restyle('chart', {
+    'marker.color':      [newColors],
+    'marker.opacity':    [newOpacity],
+    'marker.line.color': [newLineColor],
+    'marker.line.width': [newLineWidth]
+  }, [1]);  // target bar trace only; leave marker trace (0) untouched
+
+  renderSidebar(c, ancestors, descendants, concurrent);
+});
+
+chartDiv.on('plotly_unhover', () => {
+  Plotly.restyle('chart', {
+    'marker.color':      [[...defaultColors]],
+    'marker.opacity':    [[...defaultOpacity]],
+    'marker.line.color': [sorted.map(() => 'rgba(0,0,0,0.12)')],
+    'marker.line.width': [sorted.map(() => 0.8)]
+  }, [1]);  // target bar trace only; leave marker trace (0) untouched
+  document.getElementById('placeholder').style.display = '';
+  document.getElementById('detail').style.display = 'none';
+});
+
+// ── Sidebar renderer ──────────────────────────────────────────────
+function chip(code, bgColor, textColor, borderColor) {
+  return `<span class="chip" style="background:${bgColor};color:${textColor};border-color:${borderColor}" title="${courseMap[code]?.course_name || ''}">${code}</span>`;
+}
+
+function renderSidebar(c, ancestors, descendants, concurrent) {
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('detail').style.display = 'block';
+
+  document.getElementById('cname').textContent = c.course_number;
+  document.getElementById('cfull').textContent  = c.course_name;
+
+  const creditsNum = parseFloat(c.credits) || 0;
+  const semName = n => ({1:'Fr.Fall',2:'Fr.Spr',3:'So.Fall',4:'So.Spr',5:'Jr.Fall',6:'Jr.Spr',7:'Sr.Fall',8:'Sr.Spr'}[n] || `Sem ${n}`);
+  const cpBadge = c.on_critical_path
+    ? `<span style="background:#c0392b;color:#fff;padding:1px 7px;border-radius:3px;font-size:0.70rem;font-weight:600">Critical Path</span>`
+    : `<span style="background:#eaeef2;color:#57606a;padding:1px 7px;border-radius:3px;font-size:0.70rem;border:1px solid #c8cdd3">Float: ${c.slack ?? '—'} sem</span>`;
+  const windowLine = (c.semester_number !== null && c.early_start_semester != null)
+    ? `<div style="margin-top:5px;font-size:0.72rem;color:#57606a">
+         <span style="color:rgba(70,105,175,0.9);font-weight:600">╌╌</span>
+         &nbsp;ES: <b>${semName(c.early_start_semester)}</b>
+         &nbsp;&nbsp;LF: <b>${semName(c.late_finish_semester)}</b>
+       </div>`
+    : '';
+  document.getElementById('cmeta').innerHTML =
+    `${c.credits} credit${c.credits !== 1 ? 's' : ''} &nbsp;·&nbsp; ${c.semester || 'Elective'}` +
+    `<div class="credits-bar-bg"><div class="credits-bar-fill" style="width:${Math.min(creditsNum / 4 * 100, 100)}%"></div></div>` +
+    `<div style="margin-top:6px">${cpBadge}</div>` +
+    windowLine;
+
+  const directPrereqs   = c.prerequisites.filter(p => courseMap[p]);
+  const indirectPrereqs = [...ancestors].filter(p => !directPrereqs.includes(p));
+  const directDeps      = dependentsMap[c.course_number] || [];
+  const indirectDeps    = [...descendants].filter(d => !directDeps.includes(d));
+
+  let html = '';
+
+  if (directPrereqs.length) {
+    html += `<div class="rel-block"><div class="rel-hdr" style="color:#c05800">Prerequisites</div>`;
+    directPrereqs.forEach(p => { html += chip(p, '#fff3e0', '#c05800', '#f5c284'); });
+    html += `</div>`;
+  }
+
+  if (indirectPrereqs.length) {
+    html += `<div class="rel-block"><div class="rel-hdr" style="color:#a07040">Indirect prerequisites</div>`;
+    indirectPrereqs.forEach(p => { html += chip(p, '#fdf4e8', '#a07040', '#e8d0a0'); });
+    html += `</div>`;
+  }
+
+  if (concurrent.size) {
+    html += `<div class="rel-block"><div class="rel-hdr" style="color:#6a1b9a">Concurrent enrollment</div>`;
+    [...concurrent].forEach(p => { html += chip(p, '#f3e5f5', '#6a1b9a', '#cc99e0'); });
+    html += `</div>`;
+  }
+
+  if (directDeps.length) {
+    html += `<div class="rel-block"><div class="rel-hdr" style="color:#0277bd">Required for</div>`;
+    directDeps.forEach(d => { html += chip(d, '#e3f2fd', '#0277bd', '#90caf9'); });
+    html += `</div>`;
+  }
+
+  if (indirectDeps.length) {
+    html += `<div class="rel-block"><div class="rel-hdr" style="color:#3a8ccc">Indirect dependents</div>`;
+    indirectDeps.forEach(d => { html += chip(d, '#f0f8ff', '#3a8ccc', '#b0d8f4'); });
+    html += `</div>`;
+  }
+
+  if (!html) {
+    html = `<div style="color:#b0b8c2;font-size:0.78rem;font-style:italic;margin-top:6px">No dependency relationships</div>`;
+  }
+
+  document.getElementById('crels').innerHTML = html;
+}
+
+} // end initChart
+
+initChart(COURSES);
+</script>
+</body>
+</html>
